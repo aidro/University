@@ -1,2 +1,2 @@
-# uni-cloud
+# uni-sdn
 Repository for Uni assignments
