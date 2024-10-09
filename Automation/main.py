@@ -47,8 +47,8 @@ tfApply = tf.apply(
     auto_approve=True,
     var={
         'proxmox_url': ProxmoxCT.proxmox_url,
-        'proxmox_apikey': ProxmoxCT.proxmox_apikey,
-        'proxmox_apitoken': ProxmoxCT.proxmox_apitoken,
+        'proxmox_password': ProxmoxCT.proxmox_password,
+        'proxmox_user': ProxmoxCT.proxmox_user,
         'vm_name': ProxmoxCT.ct_name,
         'target_node': ProxmoxCT.target_node,
         'iso': ProxmoxCT.iso,

@@ -5,15 +5,15 @@ variable "proxmox_url" {
     nullable = false
 }
 
-variable "proxmox_apikey" {
+variable "proxmox_user" {
     type = string
     default = "root@pam!main"
     nullable = false
 }
 
-variable "proxmox_apitoken" {
+variable "proxmox_password" {
     type = string
-    default = "35b3fa77-3345-4ef4-9cc0-59a3e39c5c18"
+    default = "Buddier131!"
 }
 
 ### Global variables
