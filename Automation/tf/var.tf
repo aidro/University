@@ -47,7 +47,7 @@ variable "iso" {
 
 variable "hostname" {
     type = string
-    default = "test"
+    default = ""
 }
 
 variable "ip_address" {
