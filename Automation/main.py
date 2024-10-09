@@ -58,7 +58,7 @@ tfApply = tf.apply(
         'disk_storage': ProxmoxCT.disk_storage,
         'disk_size': ProxmoxCT.disk_size,
         'network_bridge': ProxmoxCT.network_bridge,
-        'ip': ProxmoxCT.ip_address
+        'ip_address': ProxmoxCT.ip_address
     }
 )
 
