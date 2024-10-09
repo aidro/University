@@ -22,7 +22,7 @@ variable "password" {
     default = ""
 }
 
-variable "target_node" {
+variable "node" {
     type = string
     default = "aidro-cluster"
 }
