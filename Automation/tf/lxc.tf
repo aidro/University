@@ -1,4 +1,4 @@
-resource "proxmox_lxc" "basic" {
+resource "proxmox_lxc" "advanced_features" {
   target_node  = var.node
   hostname     = var.hostname
   ostemplate   = var.iso
