@@ -27,7 +27,6 @@ class Parser:
         parser.add_argument('-ct_bridge', metavar='net_bridge', type=int)
         parser.add_argument('-target_node', metavar='net_bridge', type=int)
         parser.add_argument('-ct_datastore_template_location', metavar='net_bridge', type=int)
-        parser.add_argument('-iso', metavar='net_bridge', type=int)
         parser.add_argument('-cores', metavar='net_bridge', type=int)
         parser.add_argument('-ct_memory', metavar='net_bridge', type=int)
         parser.add_argument('-sockets', metavar='net_bridge', type=int)
