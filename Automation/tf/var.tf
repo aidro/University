@@ -100,7 +100,7 @@ variable "network_bridge" {
 ### VM variables
 variable "vm_name" {
     type = string
-    default = "test"
+    default = ""
     nullable = false
 }
 
@@ -108,5 +108,5 @@ variable "vm_name" {
 ### LXC variables
 variable "ct_name" {
     type = string
-    default = "test" 
+    default = "" 
 }
