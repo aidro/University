@@ -16,6 +16,18 @@ variable "proxmox_password" {
     default = "Buddier131!"
 }
 
+variable "pm_api_token_id" {
+    type = string
+    default = "root@pam!main"
+    nullable = false
+}
+
+variable "pm_api_token_secret" {
+    type = string
+    default = "35b3fa77-3345-4ef4-9cc0-59a3e39c5c18"
+    nullable = false
+}
+
 ### Global variables
 variable "password" {
     type = string
