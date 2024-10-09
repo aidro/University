@@ -12,8 +12,10 @@ ProxmoxCT = Proxmox.CT
 # Invoke Terraform class
 tf = Terraform(working_dir='./tf')
 
+tfInit = tf.init()
+
 # If the init fails, exit the script
-if tf.init() != 0:
+if tfInit != 0:
     print("Terraform init failed")
     exit(1)
 
