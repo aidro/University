@@ -1,6 +1,7 @@
 from arguments import Parser
 from proxmox import Proxmox
 from python_terraform import Terraform
+import os
 
 ParserInstance = Parser()
 args = ParserInstance.Parse()
@@ -9,8 +10,11 @@ args = ParserInstance.Parse()
 ProxmoxVM = Proxmox.VM
 ProxmoxCT = Proxmox.CT
 
+CWD = os.path.dirname(os.path.abspath(__file__))
+OS = "/" if os.name == "nt" else "/"
+
 # Invoke Terraform class
-tf = Terraform(working_dir='./tf')
+tf = Terraform(working_dir=f'{CWD}{OS}./tf')
 
 tfInit = tf.init()
 
