@@ -24,13 +24,8 @@ class Parser:
         parser.add_argument('-nb', metavar='net_bridge', type=int, help='The network bridge to use for the VM')
 
         parser.add_argument('-ct_name', metavar='net_bridge', type=int)
-        parser.add_argument('-ct_bridge', metavar='net_bridge', type=int)
         parser.add_argument('-target_node', metavar='net_bridge', type=int)
-        parser.add_argument('-ct_datastore_template_location', metavar='net_bridge', type=int)
         parser.add_argument('-cores', metavar='net_bridge', type=int)
-        parser.add_argument('-ct_memory', metavar='net_bridge', type=int)
-        parser.add_argument('-sockets', metavar='net_bridge', type=int)
-        parser.add_argument('-dns_domain', metavar='net_bridge', type=int)
         parser.add_argument('-disk_storage', metavar='net_bridge', type=int)
         parser.add_argument('-disk_size', metavar='net_bridge', type=int)
         parser.add_argument('-network_bridge', metavar='net_bridge', type=int)
