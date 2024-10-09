@@ -1,5 +1,5 @@
 resource "proxmox_lxc" "basic" {
-  target_node  = var.target_node
+  target_node  = var.node
   hostname     = var.hostname
   ostemplate   = var.iso
   password     = var.password
