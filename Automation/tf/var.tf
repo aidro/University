@@ -24,7 +24,7 @@ variable "password" {
 
 variable "node" {
     type = string
-    default = "aidro-cluster"
+    default = "pve"
 }
 
 variable "iso" {
