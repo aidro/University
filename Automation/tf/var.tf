@@ -31,7 +31,7 @@ variable "pm_api_token_secret" {
 ### Global variables
 variable "password" {
     type = string
-    default = ""
+    default = "Welkom1!"
 }
 
 variable "node" {
