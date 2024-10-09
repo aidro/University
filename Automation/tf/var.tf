@@ -92,24 +92,11 @@ variable "vm_name" {
     nullable = false
 }
 
-variable "target_node" {
-    type = string
-    default = "microbito"
-    nullable = false
-}
-
 variable "qemu_os" {
     type = string
     default = "l26"
     nullable = false
 }
-
-variable "os_type" {
-    type = string
-    default = "centos"
-    nullable = false
-}
-
 
 
 ### LXC variables
