@@ -24,7 +24,7 @@ variable "password" {
 
 variable "node" {
     type = string
-    default = "pve"
+    default = "srv01"
 }
 
 variable "iso" {
