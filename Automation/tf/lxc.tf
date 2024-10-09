@@ -1,6 +1,7 @@
 resource "proxmox_lxc" "basic" {
   target_node  = var.node
-  
+  hostname     = var.hostname
+  vmid         = 101
   ostemplate   = var.iso
   password     = var.password
   unprivileged = true
