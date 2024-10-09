@@ -1,6 +1,6 @@
-resource "proxmox_lxc" "advanced_features" {
+resource "proxmox_lxc" "basic" {
   target_node  = var.node
-  hostname     = var.hostname
+  
   ostemplate   = var.iso
   password     = var.password
   unprivileged = true
