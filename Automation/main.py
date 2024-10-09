@@ -63,6 +63,8 @@ tfApply = tf.apply(
 )
 
 # If the apply fails, exit the script
+print(tfApply[1])
+
 if tfApply[0] != 0:
     print("Terraform apply failed")
     exit(1)
