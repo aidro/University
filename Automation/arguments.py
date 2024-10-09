@@ -23,7 +23,7 @@ class Parser:
         parser.add_argument('-nm', '--net_model', metavar='net_model', type=int, help='The network card model to use for the VM')
         parser.add_argument('-nb', metavar='net_bridge', type=int, help='The network bridge to use for the VM')
 
-        parser.add_argument('-ctname', metavar='net_bridge', type=int)
+        parser.add_argument('-ct_name', metavar='net_bridge', type=int)
         parser.add_argument('-ct_bridge', metavar='net_bridge', type=int)
         parser.add_argument('-ct_datastore_storage_location', metavar='net_bridge', type=int)
         parser.add_argument('-ct_datastore_template_location', metavar='net_bridge', type=int)
