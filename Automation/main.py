@@ -17,9 +17,9 @@ OS = "/" if os.name == "nt" else "/"
 tf = Terraform(working_dir=f'{CWD}{OS}./tf')
 
 tfInit = tf.init()
-
+print(tfInit)
 # If the init fails, exit the script
-if tfInit != 0:
+if tfInit[0] != 0:
     print("Terraform init failed")
     exit(1)
 
