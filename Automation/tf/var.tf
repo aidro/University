@@ -29,18 +29,18 @@ variable "target_node" {
 
 variable "iso" {
     type = string
-    default = ""
+    default = "cephfs:vztmpl/debian-12-standard_12.7-1_amd64.tar.zst"
     nullable = false
 }
 
 variable "hostname" {
     type = string
-    default = ""
+    default = "test"
 }
 
 variable "ip_address" {
     type = string
-    default = ""
+    default = "10.24.49.200"
 }
 
 variable "cores" {
@@ -88,7 +88,7 @@ variable "network_bridge" {
 ### VM variables
 variable "vm_name" {
     type = string
-    default = "youritguyvm"
+    default = "test"
     nullable = false
 }
 
@@ -102,7 +102,7 @@ variable "qemu_os" {
 ### LXC variables
 variable "ct_name" {
     type = string
-    default = "" 
+    default = "test" 
 }
 
 variable "ct_bridge" {
