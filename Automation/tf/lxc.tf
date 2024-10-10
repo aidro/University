@@ -5,6 +5,8 @@ resource "proxmox_lxc" "basic" {
   password     = var.password
   unprivileged = true
   start        = true
+  cores        = 2
+  memory       = 8192
   ssh_public_keys = file("~/.ssh/id_rsa.pub")
 
   rootfs {
