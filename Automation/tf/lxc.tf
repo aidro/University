@@ -13,7 +13,7 @@ resource "proxmox_lxc" "basic" {
   network {
     name   = "eth0"
     bridge = var.network_bridge
-    ip     = var.ip_address
+    ip     = "10.24.49.200"
   }
 
   # Use provisioners to install Docker and configure services
