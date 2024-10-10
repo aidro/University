@@ -22,7 +22,7 @@ resource "proxmox_lxc" "basic" {
       type     = "ssh"
       user     = "root"
       password = var.password
-      host     = var.ip_address
+      host     = 10.24.49.200
     }
 
     # Step 1: Install Docker
@@ -44,7 +44,7 @@ resource "proxmox_lxc" "basic" {
       type     = "ssh"
       user     = "root"
       password = var.password
-      host     = var.ip_address
+      host     = 10.24.49.200
     }
 
     inline = [
