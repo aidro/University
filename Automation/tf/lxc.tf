@@ -40,7 +40,7 @@ resource "proxmox_lxc" "basic" {
       "apt-get install -y docker",
       "systemctl enable docker",
       "systemctl start docker",
-      "apt install -y docker-compose"
+      "apt install -y docker-compose",
       "systemctl start docker-compose"
     ]
   }
