@@ -22,7 +22,7 @@ resource "proxmox_lxc" "basic" {
       type     = "ssh"
       user     = "root"
       password = "your_password"  # Password-based SSH authentication
-      host     = self.ip
+      host     = var.ip_address
     }
 
     # Step 1: Install Docker
