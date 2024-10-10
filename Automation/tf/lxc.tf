@@ -5,6 +5,7 @@ resource "proxmox_lxc" "basic" {
   password     = var.password
   unprivileged = true
   start        = true
+  ssh_public_keys = file("~/.ssh/id_rsa.pub")
 
   rootfs {
     storage = var.disk_storage
@@ -27,7 +28,7 @@ resource "proxmox_lxc" "basic" {
     connection {
       type     = "ssh"
       user     = "root"
-      password = var.password
+      private_key = file("~/.ssh/id_rsa")
       host     = "10.24.49.200"
     }
 
@@ -49,7 +50,7 @@ resource "proxmox_lxc" "basic" {
     connection {
       type     = "ssh"
       user     = "root"
-      password = var.password
+      private_key = file("~/.ssh/id_rsa")
       host     = "10.24.49.200"
     }
 
