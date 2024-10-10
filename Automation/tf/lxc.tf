@@ -5,8 +5,8 @@ resource "proxmox_lxc" "basic" {
   password     = var.password
   unprivileged = true
   start        = true
-  cores        = 2
-  memory       = 8192
+  cores        = "2"
+  memory       = "8192"
   ssh_public_keys = file("~/.ssh/id_rsa.pub")
 
   rootfs {
@@ -37,13 +37,11 @@ resource "proxmox_lxc" "basic" {
     # Step 1: Install Docker
     inline = [
       "apt-get update",
-      "apt-get install -y apt-transport-https ca-certificates curl software-properties-common",
-      "curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -",
-      "add-apt-repository 'deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable'",
-      "apt-get update",
-      "apt-get install -y docker-ce",
+      "apt-get install -y docker",
       "systemctl enable docker",
       "systemctl start docker",
+      "apt install -y docker-compose"
+      "systemctl start docker-compose"
     ]
   }
 
@@ -57,14 +55,8 @@ resource "proxmox_lxc" "basic" {
     }
 
     inline = [
-      # Install Docker Compose (optional, for easier container management)
-      "curl -L https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-linux-x86_64 /usr/local/bin/docker-compose",
-      "chmod +x /usr/local/bin/docker-compose",
-
-      # Create a directory for the WordPress setup
       "mkdir -p /opt/wordpress",
 
-      # Create a Docker Compose file for WordPress and MySQL
       "echo 'version: \"3\"' > /opt/wordpress/docker-compose.yml",
       "echo 'services:' >> /opt/wordpress/docker-compose.yml",
       "echo '  db:' >> /opt/wordpress/docker-compose.yml",
