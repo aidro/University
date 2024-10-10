@@ -42,26 +42,26 @@ for i in vars(args):
 # Get appropriate OS
 
 
-    # Apply Terraform
-    tfApply = tf.apply(
-        skip_plan=True, 
-        auto_approve=True,
-        var={
-            'proxmox_url': ProxmoxCT.proxmox_url,
-            'proxmox_password': ProxmoxCT.proxmox_password,
-            'proxmox_user': ProxmoxCT.proxmox_user,
-            'ct_name': ProxmoxCT.ct_name,
-            'target_node': ProxmoxCT.target_node,
-            'iso': ProxmoxCT.iso,
-            'cores': ProxmoxCT.cores,
-            'sockets': ProxmoxCT.sockets,
-            'memory': ProxmoxCT.memory,
-            'disk_storage': ProxmoxCT.disk_storage,
-            'disk_size': ProxmoxCT.disk_size,
-            'network_bridge': ProxmoxCT.network_bridge,
-            'ip_address': ProxmoxCT.ip_address
-        }
-    )
+# Apply Terraform
+tfApply = tf.apply(
+    skip_plan=True, 
+    auto_approve=True,
+    var={
+        'proxmox_url': ProxmoxCT.proxmox_url,
+        'proxmox_password': ProxmoxCT.proxmox_password,
+        'proxmox_user': ProxmoxCT.proxmox_user,
+        'ct_name': ProxmoxCT.ct_name,
+        'target_node': ProxmoxCT.target_node,
+        'iso': ProxmoxCT.iso,
+        'cores': ProxmoxCT.cores,
+        'sockets': ProxmoxCT.sockets,
+        'memory': ProxmoxCT.memory,
+        'disk_storage': ProxmoxCT.disk_storage,
+        'disk_size': ProxmoxCT.disk_size,
+        'network_bridge': ProxmoxCT.network_bridge,
+        'ip_address': ProxmoxCT.ip_address
+    }
+)
 
 # If the apply fails, exit the script
 print(tfApply)
