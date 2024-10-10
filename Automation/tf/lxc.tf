@@ -44,7 +44,7 @@ resource "proxmox_lxc" "basic" {
       type     = "ssh"
       user     = "root"
       password = var.password
-      host     = self.ipv4_address
+      host     = var.ip_address
     }
 
     inline = [
