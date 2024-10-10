@@ -17,6 +17,10 @@ resource "proxmox_lxc" "basic" {
     gw     = "10.24.49.1"
   }
 
+  timeouts {
+    create = "2m"
+  }
+
   # Use provisioners to install Docker and configure services
   provisioner "remote-exec" {
     connection {
