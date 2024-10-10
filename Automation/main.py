@@ -33,10 +33,10 @@ for i in vars(args):
         setattr(ProxmoxCT, i, None)
 
 # Setting appropriate IP-Range
-ContainerAmount = input("How many containers would you like to create? ")
-StartIP = input("Please enter the start of the IP-Range [I.E: 0.0.0.0]")
+# ContainerAmount = input("How many containers would you like to create? ")
+# StartIP = input("Please enter the start of the IP-Range [I.E: 0.0.0.0]")
 
-for x in range(ContainerAmount):
+# for x in range(ContainerAmount):
 
 # Setting hostnames
 # Get appropriate OS
