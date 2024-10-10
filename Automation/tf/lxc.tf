@@ -17,7 +17,7 @@ resource "proxmox_lxc" "basic" {
   }
 
   # Use provisioners to install Docker and configure services
-  provisioner "remote-exec" {
+  provisioner "remote-exec" "my-docker-config-peepeepooopooo" {
     connection {
       type     = "ssh"
       user     = "root"
@@ -39,7 +39,7 @@ resource "proxmox_lxc" "basic" {
   }
 
   # Step 2: Use Docker to deploy WordPress and MySQL
-  provisioner "remote-exec" {
+  provisioner "remote-exec" "peepeepoopoo"{
     connection {
       type     = "ssh"
       user     = "root"
