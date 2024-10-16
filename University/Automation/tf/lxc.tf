@@ -34,7 +34,7 @@ resource "proxmox_lxc" "basic" {
       private_key = file("~/.ssh/id_rsa")
       host     = "10.24.49.200"
     }
-    source      = "/scripts/script.sh"
+    source      = "${path.module}/scripts/script.sh"
     destination = "/tmp/script.sh"
   }
 
