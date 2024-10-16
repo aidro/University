@@ -39,7 +39,7 @@ resource "proxmox_lxc" "basic" {
       host     = "10.24.49.200"
     }
 
-   inline = [
+    inline = [
       "chmod +x /tmp/script.sh",
       "./script.sh",
     ]
