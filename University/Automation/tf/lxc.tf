@@ -27,6 +27,13 @@ resource "proxmox_lxc" "basic" {
 
   # Use provisioners to install Docker and configure services
   provisioner "file" {
+    
+    connection {
+      type     = "ssh"
+      user     = "root"
+      private_key = file("~/.ssh/id_rsa")
+      host     = "10.24.49.200"
+    }
     source      = "/scripts/script.sh"
     destination = "/tmp/script.sh"
   }
@@ -38,7 +45,6 @@ resource "proxmox_lxc" "basic" {
       private_key = file("~/.ssh/id_rsa")
       host     = "10.24.49.200"
     }
-
     inline = [
       "chmod +x /tmp/script.sh",
       "./script.sh",
