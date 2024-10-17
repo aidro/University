@@ -113,10 +113,11 @@ function createlxc(){
         --net0 name=etho0,bridge=vmbr0,ip=$ip/24,gw=$gw \
         --cores 1 \
         --memory 512 \
+        --nameserver 8.8.8.8 \
         --password Welkom1! \
         --start 1 \
-        --ssh-public-keys /root/.ssh/id_rsa.pub
-
+        --ssh-public-keys /root/.ssh/id_rsa.pub \ 
+        
     # Clone Git repository and run essential files
     git clone https://github.com/aidro/University.git
     cd University
