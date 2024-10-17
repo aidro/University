@@ -113,7 +113,7 @@ function createlxc(){
         --net0 name=etho0,bridge=vmbr0,ip=$ip/24,gw=$gw \
         --cores 1 \
         --memory 512 \
-        --nameserver 8.8.8.8 \
+        --nameserver '8.8.8.8' \
         --password Welkom1! \
         --start 1 \
         --ssh-public-keys /root/.ssh/id_rsa.pub \ 
