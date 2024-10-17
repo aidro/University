@@ -110,14 +110,20 @@ function createlxc(){
     ip="10.24.49.200"
     pct create $initial_id cephfs:${!chosen_image} \
         --rootfs local-lvm:8 \
-        --net0 name=etho0,bridge=vmbr0,ip=$ip/24,gw=$gw \
+        --net0 name=eth0,bridge=vmbr0,ip=$ip/24,gw=$gw \
         --cores 1 \
         --memory 512 \
-        --nameserver '8.8.8.8' \
         --password Welkom1! \
         --start 1 \
-        --ssh-public-keys /root/.ssh/id_rsa.pub \ 
-        
+        --ssh-public-keys /root/.ssh/id_rsa.pub \
+        --nameserver '8.8.8.8' \
+
+    # To run docker inside unprivileged LXC containers
+    echo -e "overlay\naufs" >> /etc/modules-load.d/modules.conf
+    lsmod | grep -E 'overlay|aufs'
+    echo -e features: keyctl=1,nesting=1 >> /etc/pve/lxc/$initial_id.conf
+    pct reboot $initial_id
+
     # Clone Git repository and run essential files
     git clone https://github.com/aidro/University.git
     cd University
