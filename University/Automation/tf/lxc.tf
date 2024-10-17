@@ -45,7 +45,7 @@ resource "proxmox_lxc" "basic" {
       host     = "10.24.49.200"
     }
     inline = [
-      "cd /tmp"
+      "cd /tmp",
       "chmod +x /test.sh",
       "./test.sh",
     ]
