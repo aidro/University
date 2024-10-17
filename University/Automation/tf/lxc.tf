@@ -34,6 +34,6 @@ resource "proxmox_lxc" "basic" {
       private_key = file("~/.ssh/id_rsa")
       host     = "10.24.49.200"
     }
-    script = "/opt/University/University/Automation/scripts/test.sh"
+    script = "/opt/University/University/Automation/scripts/install.sh"
   }
 }
