@@ -11,8 +11,6 @@ services:
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
       - app-network
-    ports:
-      - 80:80
 
   wordpress:
     depends_on:
