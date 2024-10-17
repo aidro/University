@@ -148,8 +148,10 @@ function createlxc(){
     do
         id="10${i}"
         ip="10.24.49.20${i}"
-        pct clone $initial_id $id \
+        pct clone $initial_id $id
+        pct set $initial_id \
         --hostname $id \
         --net0 name=etho0,bridge=vmbr0,ip=$ip/24,gw=$gw
+        
     done
 }
