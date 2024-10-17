@@ -108,32 +108,30 @@ function createlxc(){
     
     initial_id=100
     ip="10.24.49.200"
-    pct create $$initial_id cephfs:${!chosen_image} \
+    pct create $initial_id cephfs:${!chosen_image} \
         --rootfs local-lvm:8 \
         --net0 name=etho0,bridge=vmbr0,ip=$ip/24,gw=$gw \
         --cores 1 \
         --memory 512 \
         --password Welkom1! \
         --start 1 \
-        --ssh-public-keys  ~/.ssh/id_rsa.pub
+        --ssh-public-keys /root/.ssh/id_rsa.pub
 
     # Clone Git repository and run essential files
     git clone https://github.com/aidro/University.git
+    cd University
     git checkout cloud
-    cd "$(pwd)""/opt/test/University/University/Automation"
+    cd "$(pwd)""/University/Automation"
 
     # Copy Wordpress Docker installation files to container
-    scp \
+    scp -r -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
     scripts/install.sh \
     scripts/wp/ \
     scripts/nginx-conf/ \
     root@$ip:/home
 
     # Install Wordpress via Docker on container
-    pct exec $initial_id -- \
-    source ./scripts/install.sh \
-    cd scripts/wp \
-    install_docker
+    pct exec $initial_id -- bash -c "source /home/install.sh && cd /home/wp && install_docker"
 
     # Create a template and clone ten times
     pct stop $initial_id

@@ -4,7 +4,7 @@ function install_docker() {
     # Install docker on host machine
     if ! command -v docker 2>&1 >/dev/null
     then
-        sudo apt-get install docker -y && sudo apt-get install docker-compose -y
+        apt-get install docker -y && apt-get install docker-compose -y
         docker-compose up -d --build
     fi
 }
