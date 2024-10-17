@@ -8,3 +8,5 @@ function install_docker() {
         docker-compose up -d --build
     fi
 }
+
+install_docker
