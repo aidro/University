@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo apt-get install docker -y && sudo apt-get install docker-compose -y
+apt-get install docker -y && apt-get install docker-compose -y
 # Install docker
 # function docker() {
 #     # Install docker on host machine
