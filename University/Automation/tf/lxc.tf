@@ -7,6 +7,7 @@ resource "proxmox_lxc" "basic" {
   start        = true
   cores        = "2"
   memory       = "8192"
+  nameserver   = "8.8.8.8
   ssh_public_keys = file("~/.ssh/id_rsa.pub")
 
   rootfs {
