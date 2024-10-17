@@ -46,7 +46,7 @@ resource "proxmox_lxc" "basic" {
     }
     inline = [
       "chmod +x /tmp/test.sh",
-      "./script.sh",
+      "./test.sh",
     ]
   }
 }
