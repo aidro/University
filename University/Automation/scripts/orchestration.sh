@@ -69,6 +69,7 @@ function cephcluster(){
 
 function createlxc(){
     # Show available images
+    gw=10.24.49.1
     images=$(pveam available --section system)
     count=0
     
@@ -92,6 +93,7 @@ function createlxc(){
     # Format images in list for user to choose from
     echo -e "What image would you like to install on the clients?"
     sleep 2
+
     count=0
     for image in $(pveam list cephfs | grep -oP "(?<=cephfs:)[^\s]+");
     do
@@ -103,17 +105,46 @@ function createlxc(){
 
     read -p "Please insert image number to be installed: " image_number
     chosen_image="image$(($image_number))"
+    
+    initial_id=100
+    ip="10.24.49.200"
+    pct create $$initial_id cephfs:${!chosen_image} \
+        --rootfs local-lvm:8 \
+        --net0 name=etho0,bridge=vmbr0,ip=$ip/24,gw=$gw \
+        --cores 1 \
+        --memory 512 \
+        --password Welkom1! \
+        --start 1 \
+        --ssh-public-keys  ~/.ssh/id_rsa.pub
+
+    # Clone Git repository and run essential files
+    git clone https://github.com/aidro/University.git
+    git checkout cloud
+    cd "$(pwd)""/opt/test/University/University/Automation"
+
+    # Copy Wordpress Docker installation files to container
+    scp \
+    scripts/install.sh \
+    scripts/wp/ \
+    scripts/nginx-conf/ \
+    root@$ip:/home
+
+    # Install Wordpress via Docker on container
+    pct exec $initial_id -- \
+    source ./scripts/install.sh \
+    cd scripts/wp \
+    install_docker
+
+    # Create a template and clone ten times
+    pct stop $initial_id
+    pct template $initial_id
 
     for i in $(seq 1 $lxc_num);
     do
         id="10${i}"
         ip="10.24.49.20${i}"
-        pct create $id cephfs:${!chosen_image} \
-            --rootfs local-lvm:8 \
-            --net0 name=etho0,bridge=vmbr0,ip=$ip/24,gw=10.24.49.1 \
-            --cores 1 \
-            --memory 512 \
-            --password Welkom1! \
-            --start 1
+        pct clone $initial_id $id \
+        --hostname $id \
+        --net0 name=etho0,bridge=vmbr0,ip=$ip/24,gw=$gw
     done
 }
