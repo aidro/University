@@ -45,6 +45,12 @@ variable "iso" {
     nullable = false
 }
 
+variable "clone" {
+    type = string
+    default = ""
+    nullable = false
+}
+
 variable "hostname" {
     type = string
     default = ""

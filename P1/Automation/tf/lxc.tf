@@ -18,7 +18,7 @@ resource "proxmox_lxc" "basic" {
   network {
     name   = "eth0"
     bridge = var.network_bridge
-    ip     = "10.24.49.200/24"
+    ip     = "10.24.49.201/24"
     gw     = "10.24.49.1"
   }
 
@@ -26,15 +26,8 @@ resource "proxmox_lxc" "basic" {
     create = "2m"
   }
 
-  # Use provisioners to install Docker and configure services
-
-  provisioner "remote-exec" {
-    connection {
-      type     = "ssh"
-      user     = "root"
-      private_key = file("~/.ssh/id_rsa")
-      host     = "10.24.49.200"
-    }
-    script = "/opt/University/University/Automation/scripts/install.sh"
+  clone {
+    vmid        = "101"                # The vm_id of the LXC template to clone
+    full_clone  = true                 # Create a full clone (true) or a linked clone (false)
   }
 }

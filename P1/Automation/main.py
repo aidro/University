@@ -32,6 +32,38 @@ for i in vars(args):
         setattr(ProxmoxVM, i, None)
         setattr(ProxmoxCT, i, None)
 
+
+# Create a template container with everything that is needed
+# tfApply = tf.apply(
+#     skip_plan=True, 
+#     auto_approve=True,
+#     var={
+#         'proxmox_url': ProxmoxCT.proxmox_url,
+#         'proxmox_password': ProxmoxCT.proxmox_password,
+#         'proxmox_user': ProxmoxCT.proxmox_user,
+#         'ct_name': ProxmoxCT.ct_name,
+#         'target_node': ProxmoxCT.target_node,
+#         'iso': ProxmoxCT.iso,
+#         'cores': ProxmoxCT.cores,
+#         'sockets': ProxmoxCT.sockets,
+#         'memory': ProxmoxCT.memory,
+#         'disk_storage': ProxmoxCT.disk_storage,
+#         'disk_size': ProxmoxCT.disk_size,
+#         'network_bridge': ProxmoxCT.network_bridge,
+#         'ip_address': ProxmoxCT.ip_address
+#     }
+# )
+
+# # If the apply fails, exit the script
+# print(tfApply)
+
+# if tfApply[0] != 0:
+#     print("Terraform apply failed")
+#     exit(1)
+# else:
+#     print("Terraform apply successful. VM created {}.".format(ProxmoxCT.vm_name)) 
+
+
 # Setting appropriate IP-Range
 # ContainerAmount = input("How many containers would you like to create? ")
 # StartIP = input("Please enter the start of the IP-Range [I.E: 0.0.0.0]")
@@ -40,7 +72,7 @@ for i in vars(args):
 
 # Setting hostnames
 # Get appropriate OS
-
+clone_id = input("from what id to clone ")
 
 # Apply Terraform
 tfApply = tf.apply(
@@ -59,7 +91,8 @@ tfApply = tf.apply(
         'disk_storage': ProxmoxCT.disk_storage,
         'disk_size': ProxmoxCT.disk_size,
         'network_bridge': ProxmoxCT.network_bridge,
-        'ip_address': ProxmoxCT.ip_address
+        'ip_address': ProxmoxCT.ip_address,
+        'clone': clone_id
     }
 )
 

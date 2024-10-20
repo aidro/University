@@ -18,19 +18,20 @@ class Parser:
         parser.add_argument('-s', '--sockets', metavar='sockets', type=int, help='The number of sockets to use for the VM')
         parser.add_argument('-m', '--memory', metavar='memory', type=int, help='The memory to use for the VM')
         parser.add_argument('-dc', '--disk_container', metavar='disk_container', type=int, help='The disk size to use for the VM')
-        parser.add_argument('-dt', '--disk_type', metavar='disk_type', type=int, help='The disk type [ IDE, SATA...] size to use for the VM')
         parser.add_argument('-ds', '--disk_size', metavar='disk_size', type=int, help='The disk size to use for the VM')
         parser.add_argument('-nm', '--net_model', metavar='net_model', type=int, help='The network card model to use for the VM')
-        parser.add_argument('-nb', metavar='net_bridge', type=int, help='The network bridge to use for the VM')
+        parser.add_argument('-nb', type=int, help='The network bridge to use for the VM')
 
-        parser.add_argument('-ct_name', metavar='net_bridge', type=int)
-        parser.add_argument('-target_node', metavar='net_bridge', type=int)
-        parser.add_argument('-cores', metavar='net_bridge', type=int)
-        parser.add_argument('-disk_storage', metavar='net_bridge', type=int)
-        parser.add_argument('-disk_size', metavar='net_bridge', type=int)
-        parser.add_argument('-network_bridge', metavar='net_bridge', type=int)
-        parser.add_argument('-ip_address', metavar='net_bridge', type=int)
+        parser.add_argument('-ct_name', type=int)
+        parser.add_argument('-target_node', type=int)
+        parser.add_argument('-cores', type=int)
+        parser.add_argument('-disk_storage', type=int)
+        parser.add_argument('-disk_size', type=int)
+        parser.add_argument('-network_bridge', type=int)
+        parser.add_argument('-ip_address', type=int)
+        parser.add_argument('-clone', type=int)
         # Parse the arguments
         self.args = parser.parse_args()
+        
 
         return self.args
