@@ -18,11 +18,7 @@ RUN adduser \
     unprivuser
 
 # Copy the app directory into the working directory
-COPY /app .
-
-# Installing all the necessary dependencies
-RUN --mount=type=cache,target=/root/.cache/pip \
-    python -m pip install -r requirements.txt
+COPY scripts /app/
 
 # Make sure that unprivuser has permission to access everything it needs
 RUN chown -R unprivuser:unprivuser /app
@@ -30,8 +26,5 @@ RUN chown -R unprivuser:unprivuser /app
 # Switching to predetermined unpriviliged user
 USER unprivuser
 
-# Opening port 8080
-EXPOSE 5050
-
 # Running the script
-CMD python3 -m application --port=5050
+CMD ["python", "echo.py"]
