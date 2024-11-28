@@ -9,3 +9,11 @@
   }
  }
 
+module vm 'modules/vm.bicep' = {
+  name: 'vm'
+  params: {
+    vmName: 'harderwijk-vm'
+    location: 'westeurope'
+    subnetID: vnet.outputs.subnetIds[0]
+  }
+}
