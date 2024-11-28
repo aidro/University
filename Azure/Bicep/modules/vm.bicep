@@ -1,9 +1,9 @@
 param vmName string
 param location string
 param subnetID string
+param vmIpAddress string
 
-
-resource networkInterface 'Microsoft.Network/networkInterfaces@2024-03-01' = {
+resource networkInterface 'Microsoft.Network/networkInterfaces@2024-03-01' =  {
   name: '${vmName}-NIC'
   location: location
   properties: {
@@ -12,7 +12,7 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2024-03-01' = {
         name: 'ipconfig'
         properties: {
           privateIPAllocationMethod: 'static'
-          privateIPAddress: '10.1.10.10'
+          privateIPAddress: vmIpAddress
           subnet: {
             id: subnetID
           }
@@ -31,14 +31,14 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
     }
     osProfile: {
       computerName: vmName
-      adminUsername: 'adminuser'
-      adminPassword: 'Password1234!'
+      adminUsername: 'knaakadmin'
+      adminPassword: 'Knaakhosting4.2!'
     }
     storageProfile: {
       imageReference: {
         publisher: 'MicrosoftWindowsServer'
         offer: 'WindowsServer'
-        sku: '2022-datacenter-azure-edition-hotpatch'
+        sku: '2022-Datacenter'
         version: 'latest'
       }
       osDisk: {
