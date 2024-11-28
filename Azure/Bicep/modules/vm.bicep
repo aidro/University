@@ -2,10 +2,7 @@ param vmName string
 param location string
 param subnetID string
 param vmIpAddress string
-
-@secure()
 param adminPassword string
-@secure()
 param adminUsername string
 
 resource networkInterface 'Microsoft.Network/networkInterfaces@2024-03-01' =  {
