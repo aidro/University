@@ -1,5 +1,10 @@
  param instanceCount int = 2
- 
+ @secure()
+ param adminUsername string
+ @secure() 
+ param adminPassword string
+
+
  targetScope = 'resourceGroup'
 
  module vnet 'modules/vnet.bicep' = {
@@ -18,6 +23,8 @@ module vm 'modules/vm.bicep' = [for i in range(0, instanceCount): {
     location: 'westeurope'
     subnetID: vnet.outputs.subnetIds[0]
     vmIpAddress: '10.1.10.1${i}'
+    adminUsername: adminUsername
+    adminPassword: adminPassword
   }
 }
 ]

@@ -3,6 +3,11 @@ param location string
 param subnetID string
 param vmIpAddress string
 
+@secure()
+param adminPassword string
+@secure()
+param adminUsername string
+
 resource networkInterface 'Microsoft.Network/networkInterfaces@2024-03-01' =  {
   name: '${vmName}-NIC'
   location: location
@@ -31,8 +36,8 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
     }
     osProfile: {
       computerName: vmName
-      adminUsername: 'knaakadmin'
-      adminPassword: 'Knaakhosting4.2!'
+      adminUsername: adminUsername
+      adminPassword: adminPassword
     }
     storageProfile: {
       imageReference: {
