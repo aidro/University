@@ -5,6 +5,14 @@ param vmIpAddress string
 param adminPassword string
 param adminUsername string
 
+resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2024-03-01' = {
+  name: '${vmName}-pubIp'
+  location: location
+  properties: {
+    publicIPAllocationMethod: 'Dynamic'
+  }
+}
+
 resource networkInterface 'Microsoft.Network/networkInterfaces@2024-03-01' =  {
   name: '${vmName}-NIC'
   location: location
@@ -17,6 +25,9 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2024-03-01' =  {
           privateIPAddress: vmIpAddress
           subnet: {
             id: subnetID
+          }
+          publicIPAddress: {
+            id: publicIPAddress.id
           }
         }
       }
