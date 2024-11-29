@@ -71,3 +71,35 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
     }
   }
 }
+
+// Custom Script Extension to Install Active Directory
+resource adInstallExtension 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
+  parent: virtualMachine
+  name: 'ADInstall'
+  location: location
+  properties: {
+    publisher: 'Microsoft.Compute'
+    type: 'CustomScriptExtension'
+    typeHandlerVersion: '1.10'
+    autoUpgradeMinorVersion: true
+    settings: {
+      fileUris: []
+      commandToExecute: '''
+        Import-Module ServerManager
+
+        Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
+
+        Import-Module ActiveDirectory
+
+        $DomainName = "knaak-hosting.nl"
+        $NetbiosName = "KNAAK-HOSTING"
+        $DomainMode = "Win2016"
+        $SafeModeAdminPasswordPlain = "Knaakhosting4.2!"
+
+        $SafeModeAdministratorPassword = ConvertTo-SecureString $SafeModeAdminPasswordPlain -AsPlainText -Force
+
+        Install-ADDSForest -DomainName $DomainName -DomainNetbiosName $NetbiosName -DomainMode $DomainMode -SafeModeAdministratorPassword $SafeModeAdministratorPassword -Force -NoRebootOnCompletion
+      '''
+    }
+  }
+}
