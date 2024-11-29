@@ -47,7 +47,6 @@ resource vpnGateway 'Microsoft.Network/virtualNetworkGateways@2020-06-01' = {
   }
 }
 
-// Define the local network gateway
 resource localNetworkGateway 'Microsoft.Network/localNetworkGateways@2020-06-01' = {
   name: localNetworkGatewayName
   location: location
@@ -61,27 +60,6 @@ resource localNetworkGateway 'Microsoft.Network/localNetworkGateways@2020-06-01'
   }
 }
 
-// Define the VPN connection
-// resource vpnConnection 'Microsoft.Network/connections@2020-06-01' = {
-//   name: vpnConnectionName
-//   location: location
-//   properties: {
-//     virtualNetworkGateway1: {
-//       id: vpnGateway.id
-//       properties: {
-
-//       }
-//     }
-//     localNetworkGateway2: {
-//       id: localNetworkGateway.id
-//       properties: {
-//       }
-//     }
-//     connectionType: 'IPsec'
-//     sharedKey: '2bf5c01cd020e89266627fb815e51129a8ee44439c1a0a4f86686921'
-//   }
-// }
-
 resource vpnConnection 'Microsoft.Network/connections@2020-11-01' = {
   name: vpnConnectionName
   location: location
@@ -89,11 +67,25 @@ resource vpnConnection 'Microsoft.Network/connections@2020-11-01' = {
     connectionType: 'IPsec'
     virtualNetworkGateway1: {
       id: vpnGateway.id
+      properties: {}
     }
     localNetworkGateway2: {
       id: localNetworkGateway.id
+      properties: {}
     }
     sharedKey: sharedKey
-    // Optional: Add IPsec policies or routing configurations if needed
+    ipsecPolicies: [{
+      dhGroup: 'DHGroup14'
+      ikeEncryption: 'AES128'
+      ikeIntegrity: 'SHA256'
+      ipsecEncryption: 'AES128'
+      ipsecIntegrity: 'SHA256'
+      pfsGroup: 'ECP384'
+      saDataSizeKilobytes: 0
+      saLifeTimeSeconds: 5000
+    }]
+    dpdTimeoutSeconds: 45
+    // Responder mode because Hanze
+    connectionMode: 'ResponderOnly'
   }
 }
