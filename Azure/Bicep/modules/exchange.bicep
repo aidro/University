@@ -1,7 +1,7 @@
-param vmName string
+param vmName string = 'exchange1'
 param location string
 param subnetID string
-param vmIpAddress string
+param vmIpAddress string = '10.1.10.51'
 param adminPassword string
 param adminUsername string
 
@@ -83,11 +83,11 @@ resource adInstallExtension 'Microsoft.Compute/virtualMachines/extensions@2022-0
     autoUpgradeMinorVersion: true
     settings: {
       fileUris: [
-        'https://raw.githubusercontent.com/aidro/University/refs/heads/main/Azure/PowerShell/Configure-AD2.ps1?token=GHSAT'
+        'https://raw.githubusercontent.com/aidro/University/refs/heads/main/Azure/PowerShell/exchange-requirements.ps1'
       ]
         }
     protectedSettings: {
-      commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File Configure-AD2.ps1'
+      commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File exchange-requirements.ps1'
     }
   }
 }
