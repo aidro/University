@@ -5,6 +5,11 @@ param vmIpAddress string
 @secure()
 param adminPassword string
 param adminUsername string
+param domainName string 
+param netbiosName string
+param domainMode string
+@secure()
+param safeModeAdminPassword string
 
 resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2024-03-01' = {
   name: '${vmName}-pubIp'
@@ -84,11 +89,12 @@ resource adInstallExtension 'Microsoft.Compute/virtualMachines/extensions@2022-0
     autoUpgradeMinorVersion: true
     settings: {
       fileUris: [
-        'https://raw.githubusercontent.com/aidro/University/refs/heads/main/Azure/PowerShell/Configure-AD2.ps1?token=GHSAT'
+        'https://raw.githubusercontent.com/aidro/University/refs/heads/main/Azure/PowerShell/Configure-AD.ps1?token=GHSAT'
       ]
         }
     protectedSettings: {
-      commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File Configure-AD2.ps1'
+      safeModeAdminPassword: safeModeAdminPassword
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File Configure-AD.ps1 -DomainName "${domainName}" -NetbiosName "${netbiosName}" -DomainMode "${domainMode}" -SafeModeAdministratorPassword "$(safeModeAdminPassword)"'
     }
   }
 }
