@@ -3,7 +3,7 @@ $isoLocalPath = "C:\Temp\ExchangeServer.iso"
 
 Write-Output $isoUrl
 
-#Invoke-WebRequest -Uri $isoUrl -OutFile $isoPath
+Invoke-WebRequest -Uri $isoUrl -OutFile $isoPath
 
 
 # Functie om de ISO te koppelen
@@ -17,7 +17,7 @@ Function Mount-ISO {
 }
 
 
-#$driveLetter = Mount-ISO -isoPath $isoLocalPath
+$driveLetter = Mount-ISO -isoPath $isoLocalPath
 Write-Output "ISO gekoppeld aan $driveLetter"
 
 
@@ -25,9 +25,9 @@ Start-Process -FilePath "$driveLetter\Setup.exe" -ArgumentList "/PrepareSchema",
 Start-Process -FilePath "$driveLetter\Setup.exe" -ArgumentList "/PrepareAD", "/IAcceptExchangeServerLicenseTerms" -Wait
 
 Write-Output "Organisatie voorbereiden..."
-Start-Process -FilePath "$driveLetter\Setup.exe" -ArgumentList "/PrepareOrganization", "/IAcceptExchangeServerLicenseTerms" -Wait'
+Start-Process -FilePath "$driveLetter\Setup.exe" -ArgumentList "/PrepareOrganization", "/IAcceptExchangeServerLicenseTerms" -Wait
 
-Write-Output "ISO afkoppelen..."
-Dismount-DiskImage -ImagePath $isoLocalPath
+# Write-Output "ISO afkoppelen..."
+# Dismount-DiskImage -ImagePath $isoLocalPath
 
-Write-Output "Configuratie voltooid!"
+# Write-Output "Configuratie voltooid!"
