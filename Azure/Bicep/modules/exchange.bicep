@@ -5,13 +5,6 @@ param vmIpAddress string = '10.1.10.51'
 param adminPassword string
 param adminUsername string
 
-resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2024-03-01' = {
-  name: '${vmName}-pubIp'
-  location: location
-  properties: {
-    publicIPAllocationMethod: 'Dynamic'
-  }
-}
 
 resource networkInterface 'Microsoft.Network/networkInterfaces@2024-03-01' =  {
   name: '${vmName}-NIC'
@@ -26,9 +19,6 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2024-03-01' =  {
           subnet: {
             id: subnetID
           }
-          publicIPAddress: {
-            id: publicIPAddress.id
-          }
         }
       }
     ]
@@ -40,7 +30,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
   location: location
   properties: {
     hardwareProfile: {
-      vmSize: 'Standard_B2s'
+      vmSize: 'Standard_D4as_v5'
     }
     osProfile: {
       computerName: vmName
@@ -72,9 +62,9 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
   }
 }
 
-resource adInstallExtension 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
+resource ExchangeRequirements 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
   parent: virtualMachine
-  name: 'ADInstall'
+  name: 'ExchangeRequirements'
   location: location
   properties: {
     publisher: 'Microsoft.Compute'
@@ -84,10 +74,11 @@ resource adInstallExtension 'Microsoft.Compute/virtualMachines/extensions@2022-0
     settings: {
       fileUris: [
         'https://raw.githubusercontent.com/aidro/University/refs/heads/main/Azure/PowerShell/exchange-requirements.ps1'
+        'https://raw.githubusercontent.com/aidro/University/refs/heads/main/Azure/PowerShell/exchange-installer.ps1'
       ]
         }
     protectedSettings: {
       commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File exchange-requirements.ps1'
     }
-  }
+  } 
 }

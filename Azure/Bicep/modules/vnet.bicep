@@ -22,6 +22,12 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2022-01-01' = {
         vnetAddressPrefix
       ]
     }
+    dhcpOptions: {
+      dnsServers: [
+        '10.1.10.10'
+        '168.63.129.16'
+      ]
+    }
     subnets: [for subnet in subnetConfigs: {
       name: subnet.name
       properties: {

@@ -28,6 +28,23 @@ $ucmaRuntime = "https://download.microsoft.com/download/2/C/4/2C47A5C1-A1F3-4843
 Invoke-WebRequest -Uri $ucmaRuntime -OutFile "C:\Temp\UcmaRuntimeSetup.exe"
 Start-Process -FilePath "C:\Temp\UcmaRuntimeSetup.exe" -ArgumentList "/quiet", "/norestart" -Wait
 
+# Determine the directory where the script is running
+$scriptDirectory = Split-Path -Parent $MyInvocation.MyCommand.Definition
+
+# Ensure the C:\Scripts directory exists
+New-Item -ItemType Directory -Path 'C:\Scripts' -Force
+
+# Copy 'exchange-installer.ps1' to 'C:\Scripts'
+Copy-Item -Path "$scriptDirectory\exchange-installer.ps1" -Destination 'C:\Scripts\exchange-installer.ps1' -Force
+
+# Schedule 'exchange-installer.ps1' to run at startup
+$action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-ExecutionPolicy Unrestricted -File "C:\Scripts\exchange-installer.ps1"'
+$trigger = New-ScheduledTaskTrigger -AtStartup
+$principal = New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest
+$task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal
+
+Register-ScheduledTask -TaskName 'RunExchangeInstaller' -InputObject $task
+
 Write-Output "Server toevoegen aan domein $domainName..."
 $securePassword = ConvertTo-SecureString $domainPassword -AsPlainText -Force
 $credential = New-Object System.Management.Automation.PSCredential ($domainUser, $securePassword)
