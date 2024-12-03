@@ -7,7 +7,11 @@
  @secure()
  param adminUsername string
  @secure() 
- param adminPassword string
+ param adminPassword string 
+ param domainName string = 'knaak-hosting.nl'
+ param domainAdminUsername string = 'knaakadmin'
+ @secure()
+ param joinAccountPassword string
 
 
  targetScope = 'resourceGroup'
@@ -34,6 +38,7 @@
 // }
 // ]
 
+
 // module vpnGateway 'modules/vng.bicep' = {
 //   name: 'vpnGateway'
 //   params: {
@@ -59,6 +64,7 @@ module exchange 'modules/exchange.bicep' = {
     subnetID: vnet.outputs.subnetIds[0]
     adminUsername: adminUsername
     adminPassword: adminPassword
+    joinAccountPassword: joinAccountPassword
   }
   dependsOn: [
     vnet

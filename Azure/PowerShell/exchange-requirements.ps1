@@ -45,7 +45,7 @@ $task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principa
 
 Register-ScheduledTask -TaskName 'RunExchangeInstaller' -InputObject $task
 
-Write-Output "Server toevoegen aan domein $domainName..."
-$securePassword = ConvertTo-SecureString $domainPassword -AsPlainText -Force
-$credential = New-Object System.Management.Automation.PSCredential ($domainUser, $securePassword)
-Add-Computer -DomainName $domainName -Credential $credential -Restart -Force
+# Write-Output "Server toevoegen aan domein $domainName..."
+# $securePassword = ConvertTo-SecureString $domainPassword -AsPlainText -Force
+# $credential = New-Object System.Management.Automation.PSCredential ($domainUser, $securePassword)
+# Add-Computer -DomainName $domainName -Credential $credential -Restart -Force

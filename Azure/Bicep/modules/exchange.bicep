@@ -2,9 +2,13 @@ param vmName string = 'exchange1'
 param location string
 param subnetID string
 param vmIpAddress string = '10.1.10.51'
+@secure()
 param adminPassword string
 param adminUsername string
-
+param domainName string = 'knaak-hosting.nl'
+param joinAccountUsername string = 'knaakadmin'
+@secure()
+param joinAccountPassword string
 
 resource networkInterface 'Microsoft.Network/networkInterfaces@2024-03-01' =  {
   name: '${vmName}-NIC'
@@ -62,6 +66,25 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
   }
 }
 
+resource domainJoinExtension 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
+  parent: virtualMachine
+  name: 'DomainJoin'
+  location: location
+  properties: {
+    publisher: 'Microsoft.Compute'
+    type: 'JsonADDomainExtension'
+    typeHandlerVersion: '1.3'
+    settings: {
+      Name: domainName
+      User: joinAccountUsername
+      Restart: 'true'
+    }
+    protectedSettings: {
+      Password: joinAccountPassword
+    }
+  }
+}
+
 resource ExchangeRequirements 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
   parent: virtualMachine
   name: 'ExchangeRequirements'
@@ -81,4 +104,7 @@ resource ExchangeRequirements 'Microsoft.Compute/virtualMachines/extensions@2022
       commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File exchange-requirements.ps1'
     }
   } 
+  dependsOn: [
+    domainJoinExtension
+  ]
 }
