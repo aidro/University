@@ -2,6 +2,7 @@ param vmName string
 param location string
 param subnetID string
 param vmIpAddress string
+@secure()
 param adminPassword string
 param adminUsername string
 

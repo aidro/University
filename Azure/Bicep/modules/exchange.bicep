@@ -4,11 +4,13 @@ param subnetID string
 param vmIpAddress string = '10.1.10.51'
 @secure()
 param adminPassword string
+param exchangeUsername string = 'exchange2'
 param adminUsername string
 param domainName string = 'knaak-hosting.nl'
-param joinAccountUsername string = 'knaakadmin'
+param joinAccountUsername string = 'KNAAK-HOSTING\\knaakadmin'
 @secure()
 param joinAccountPassword string
+param domainJoinOptions int = 3
 
 resource networkInterface 'Microsoft.Network/networkInterfaces@2024-03-01' =  {
   name: '${vmName}-NIC'
@@ -76,7 +78,9 @@ resource domainJoinExtension 'Microsoft.Compute/virtualMachines/extensions@2022-
     typeHandlerVersion: '1.3'
     settings: {
       Name: domainName
-      User: joinAccountUsername
+      OUPath: 'OU=Servers,DC=knaak-hosting,DC=nl'
+      User: '${domainName}\\${exchangeUsername}'
+      options: domainJoinOptions
       Restart: 'true'
     }
     protectedSettings: {
