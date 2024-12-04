@@ -3,43 +3,68 @@
  param onPremAddressPrefix string = '10.0.0.0/8'
  param onPremIPAddress string = '145.37.235.113'
  param vpnConnectionName string = 'Azure-Harderwijk'
- param instanceCount int = 2
+ param instanceCount int = 1
  @secure()
  param adminUsername string
  @secure() 
  param adminPassword string 
- param domainName string = 'knaak-hosting.nl'
+ param domainName string = 'draak-hosting.nl'
  param domainAdminUsername string = 'knaakadmin'
  @secure()
  param joinAccountPassword string
 @secure()
 param safeModeAdminPassword string
+@allowed([
+  'test'
+  'prod'
+])
+param env string = 'test'
 
  targetScope = 'resourceGroup'
 
  module vnet 'modules/vnet.bicep' = {
   name: 'vnet'
   params: {
-    vnetName: 'harderwijk-vnet'
+    vnetName: 'harderwijk-vnet-${env}'
     location: location
-    vnetAddressPrefix: '10.1.10.0/24'
+    vnetAddressPrefix: '20.1.10.0/24'
   }
  }
 
-module vm 'modules/vm.bicep' = [for i in range(0, instanceCount): {
-  name: 'vm-${i}'
+module admaster 'modules/admaster.bicep' = {
+  name: 'ad1-knaak'
   params: {
-    vmName: 'ad${i}-knaak'
+    vmName: 'ad1-knaak'
     location: location
     subnetID: vnet.outputs.subnetIds[0]
-    vmIpAddress: '10.1.10.1${i}'
+    vmIpAddress: '20.1.10.10'
     adminUsername: adminUsername
     adminPassword: adminPassword
     domainMode: 'Win2019'
-    domainName: 'knaak-hosting.nl'
-    netbiosName: 'KNAAK-HOSTING'
+    domainName: 'draak-hosting.nl'
+    netbiosName: 'DRAAK-HOSTING'
     safeModeAdminPassword: safeModeAdminPassword
   }
+}
+
+
+module adslave 'modules/adslave.bicep' = [for i in range(0, instanceCount): {
+  name: 'ad-slave${i}'
+  params: {
+    vmName: 'ad${i}-draak-${env}'
+    location: location
+    subnetID: vnet.outputs.subnetIds[0]
+    vmIpAddress: '20.1.10.1${i}'
+    adminUsername: adminUsername
+    adminPassword: adminPassword
+    domainMode: 'Win2019'
+    domainName: 'draak-hosting.nl'
+    netbiosName: 'DRAAK-HOSTING'
+    safeModeAdminPassword: safeModeAdminPassword
+  }
+  dependsOn: [
+    admaster
+  ]
 }
 ]
 
@@ -48,8 +73,8 @@ module vpnGateway 'modules/vng.bicep' = {
   name: 'vpnGateway'
   params: {
     location: location
-    publicIpName: 'Harderwijk-Public-1' 
-    VpnGateway: 'VNG-Harderwijk'
+    publicIpName: 'Zachtewijk-Public-1-${env}' 
+    VpnGateway: 'VNG-Zachtewijk-${env}'
     subnetID: vnet.outputs.subnetIds[1]
     localNetworkGatewayName: localNetworkGatewayName
     onPremAddressPrefix: onPremAddressPrefix

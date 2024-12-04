@@ -78,9 +78,9 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
   }
 }
 
-resource adInstallExtension 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
+resource SetupAD 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
   parent: virtualMachine
-  name: 'ADInstall'
+  name: 'SetupAD'
   location: location
   properties: {
     publisher: 'Microsoft.Compute'
@@ -89,12 +89,12 @@ resource adInstallExtension 'Microsoft.Compute/virtualMachines/extensions@2022-0
     autoUpgradeMinorVersion: true
     settings: {
       fileUris: [
-        'https://raw.githubusercontent.com/aidro/University/refs/heads/main/Azure/PowerShell/Configure-AD.ps1?token=GHSAT'
+        'https://raw.githubusercontent.com/aidro/University/refs/heads/main/Azure/PowerShell/SetupAD.ps1?token=GHSAT'
       ]
         }
     protectedSettings: {
       safeModeAdminPassword: safeModeAdminPassword
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File Configure-AD.ps1 -DomainName "${domainName}" -NetbiosName "${netbiosName}" -DomainMode "${domainMode}" -SafeModeAdministratorPassword "$(safeModeAdminPassword)"'
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File SetupAD.ps1 -DomainName "${domainName}" -NetbiosName "${netbiosName}" -DomainMode "${domainMode}" -SafeModeAdministratorPassword "$(safeModeAdminPassword)"'
     }
   }
 }
