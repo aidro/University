@@ -12,7 +12,8 @@
  param domainAdminUsername string = 'knaakadmin'
  @secure()
  param joinAccountPassword string
-
+@secure()
+param safeModeAdminPassword string
 
  targetScope = 'resourceGroup'
 
@@ -34,6 +35,10 @@
 //     vmIpAddress: '10.1.10.1${i}'
 //     adminUsername: adminUsername
 //     adminPassword: adminPassword
+//     domainMode: 'Win2019'
+//     domainName: 'knaak-hosting.nl'
+//     netbiosName: 'KNAAK-HOSTING'
+//     safeModeAdminPassword: safeModeAdminPassword
 //   }
 // }
 // ]

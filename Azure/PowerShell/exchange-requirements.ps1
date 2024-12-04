@@ -37,13 +37,13 @@ New-Item -ItemType Directory -Path 'C:\Scripts' -Force
 # Copy 'exchange-installer.ps1' to 'C:\Scripts'
 Copy-Item -Path "$scriptDirectory\exchange-installer.ps1" -Destination 'C:\Scripts\exchange-installer.ps1' -Force
 
-# Schedule 'exchange-installer.ps1' to run at startup
-$action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-ExecutionPolicy Unrestricted -File "C:\Scripts\exchange-installer.ps1"'
-$trigger = New-ScheduledTaskTrigger -AtStartup
-$principal = New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest
-$task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal
+# # Schedule 'exchange-installer.ps1' to run at startup
+# $action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-ExecutionPolicy Unrestricted -File "C:\Scripts\exchange-installer.ps1"'
+# $trigger = New-ScheduledTaskTrigger -AtStartup
+# $principal = New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest
+# $task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal
 
-Register-ScheduledTask -TaskName 'RunExchangeInstaller' -InputObject $task
+# Register-ScheduledTask -TaskName 'RunExchangeInstaller' -InputObject $task
 
 # Write-Output "Server toevoegen aan domein $domainName..."
 # $securePassword = ConvertTo-SecureString $domainPassword -AsPlainText -Force
