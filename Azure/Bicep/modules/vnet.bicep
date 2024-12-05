@@ -5,11 +5,11 @@ param vnetAddressPrefix string
 param subnetConfigs array = [
   {
     name: 'Servers'
-    addressPrefix: '10.1.10.0/25'
+    addressPrefix: '20.1.10.0/25'
   }
   {
     name: 'GatewaySubnet'
-    addressPrefix: '10.1.10.224/27'
+    addressPrefix: '20.1.10.224/27'
   }
 ]
 
@@ -24,7 +24,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2022-01-01' = {
     }
     dhcpOptions: {
       dnsServers: [
-        '10.1.10.10'
+        '20.1.10.10'
         '168.63.129.16'
       ]
     }

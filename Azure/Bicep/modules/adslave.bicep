@@ -12,10 +12,13 @@ param domainMode string
 param safeModeAdminPassword string
 
 resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2024-03-01' = {
-  name: '${vmName}-pubIp'
+  name: '${vmName}-pubIp2'
   location: location
+  sku: {
+    name: 'Standard'
+  }
   properties: {
-    publicIPAllocationMethod: 'Dynamic'
+    publicIPAllocationMethod: 'Static'
   }
 }
 

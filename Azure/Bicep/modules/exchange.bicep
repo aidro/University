@@ -1,13 +1,13 @@
-param vmName string = 'exchange1'
+param vmName string = 'exchange1-draak'
 param location string
 param subnetID string
-param vmIpAddress string = '10.1.10.51'
+param vmIpAddress string = '20.1.10.51'
 @secure()
 param adminPassword string
 param exchangeUsername string = 'exchange2'
 param adminUsername string
-param domainName string = 'knaak-hosting.nl'
-param joinAccountUsername string = 'KNAAK-HOSTING\\knaakadmin'
+param domainName string = 'draak-hosting.nl'
+param joinAccountUsername string = 'DRAAK-HOSTING\\knaakadmin'
 @secure()
 param joinAccountPassword string
 param domainJoinOptions int = 3
