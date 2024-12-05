@@ -36,7 +36,7 @@ param env string = 'test'
 module admaster 'modules/admaster.bicep' = {
   name: 'admaster'
   params: {
-    vmName: 'ad0-draak-master-${env}'
+    vmName: 'ad0-master'
     location: location
     subnetID: vnet.outputs.subnetIds[0]
     vmIpAddress: '20.1.10.10'
@@ -53,7 +53,7 @@ module admaster 'modules/admaster.bicep' = {
 module adslave 'modules/adslave.bicep' = [for i in range(0, instanceCount): {
   name: 'ad${i}'
   params: {
-    vmName: 'ad${i}-draak-slave-${env}'
+    vmName: 'ad${i}-slave'
     location: location
     subnetID: vnet.outputs.subnetIds[0]
     vmIpAddress: '20.1.10.2${i}'

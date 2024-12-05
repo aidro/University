@@ -13,27 +13,37 @@ param (
     [string]$SafeModeAdministratorPassword
 )
 
-    # Import the Server Manager module
-    Import-Module ServerManager
+# Import the Server Manager module
+Import-Module ServerManager
 
-    # Install the AD DS role
-    Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
+# Install the AD DS role
+Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
 
-    # Import the Active Directory module
-    Import-Module ActiveDirectory
+# Import the Active Directory module
+Import-Module ActiveDirectory
 
-    # Convert the safe mode administrator password to a secure string
-    $securePassword = ConvertTo-SecureString $SafeModeAdministratorPassword -AsPlainText -Force
+# Convert the safe mode administrator password to a secure string
+$securePassword = ConvertTo-SecureString $SafeModeAdministratorPassword -AsPlainText -Force
 
-    # Promote the server to a domain controller by creating a new forest
-    Install-ADDSForest `
-        -DomainName $DomainName `
-        -DomainNetbiosName $NetbiosName `
-        -ForestMode $DomainMode `
-        -DomainMode $DomainMode `
-        -SafeModeAdministratorPassword $securePassword `
-        -Force
+# Promote the server to a domain controller by creating a new forest
+Install-ADDSForest `
+    -DomainName $DomainName `
+    -DomainNetbiosName $NetbiosName `
+    -ForestMode $DomainMode `
+    -DomainMode $DomainMode `
+    -SafeModeAdministratorPassword $securePassword `
+    -NoRebootOnCompletion `
+    -Force
 
-    Write-Output "Domain '$DomainName' has been created successfully on 'ad0'."
+Write-Output "Domain '$DomainName' has been created successfully on 'ad0'."
 
-    New-ADOrganizationalUnit -Name "Servers" -Path "DC=draak-hosting,DC=nl"
+# Wait for AD services to start
+Start-Sleep -Seconds 60
+
+# Create the Organizational Unit
+New-ADOrganizationalUnit -Name "Servers" -Path "DC=draak-hosting,DC=nl"
+
+Write-Output "Organizational Unit 'Servers' has been created."
+
+# Reboot the server
+Restart-Computer -Force
