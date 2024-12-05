@@ -35,3 +35,5 @@ param (
         -Force
 
     Write-Output "Domain '$DomainName' has been created successfully on 'ad0'."
+
+    New-ADOrganizationalUnit -Name "Servers" -Path "DC=draak-hosting,DC=nl"

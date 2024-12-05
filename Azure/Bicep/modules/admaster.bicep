@@ -92,7 +92,7 @@ resource SetupAD 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
     autoUpgradeMinorVersion: true
     settings: {
       fileUris: [
-        'https://raw.githubusercontent.com/aidro/University/refs/heads/main/Azure/PowerShell/SetupAD.ps1?token=GHSAT'
+        'https://raw.githubusercontent.com/aidro/University/refs/heads/Testing/Azure/PowerShell/SetupAD.ps1'
       ]
         }
     protectedSettings: {

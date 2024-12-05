@@ -9,6 +9,8 @@
  @secure() 
  param adminPassword string 
  param domainName string = 'draak-hosting.nl'
+ param netbiosName string = 'DRAAK-HOSTING'
+ param domainMode string = 'Default'
  param domainAdminUsername string = 'knaakadmin'
  @secure()
  param joinAccountPassword string
@@ -32,35 +34,36 @@ param env string = 'test'
  }
 
 module admaster 'modules/admaster.bicep' = {
-  name: 'ad1-draak'
+  name: 'admaster'
   params: {
-    vmName: 'ad1-draak-${env}'
+    vmName: 'ad0-draak-master-${env}'
     location: location
     subnetID: vnet.outputs.subnetIds[0]
     vmIpAddress: '20.1.10.10'
     adminUsername: adminUsername
     adminPassword: adminPassword
-    domainMode: 'Win2019'
-    domainName: 'draak-hosting.nl'
-    netbiosName: 'DRAAK-HOSTING'
+    domainMode: domainMode
+    domainName: domainName
+    netbiosName: netbiosName
     safeModeAdminPassword: safeModeAdminPassword
   }
 }
 
 
 module adslave 'modules/adslave.bicep' = [for i in range(0, instanceCount): {
-  name: 'ad-slave${i}'
+  name: 'ad${i}'
   params: {
-    vmName: 'ad${i}-draak-${env}'
+    vmName: 'ad${i}-draak-slave-${env}'
     location: location
     subnetID: vnet.outputs.subnetIds[0]
     vmIpAddress: '20.1.10.2${i}'
     adminUsername: adminUsername
     adminPassword: adminPassword
-    domainMode: 'Win2019'
-    domainName: 'draak-hosting.nl'
-    netbiosName: 'DRAAK-HOSTING'
+    domainMode: domainMode
+    domainName: domainName
+    netbiosName: netbiosName
     safeModeAdminPassword: safeModeAdminPassword
+    joinAccountPassword: joinAccountPassword
   }
   dependsOn: [
     admaster
@@ -98,5 +101,6 @@ module exchange 'modules/exchange.bicep' = {
   }
   dependsOn: [
     vnet
+    admaster
   ]
 }

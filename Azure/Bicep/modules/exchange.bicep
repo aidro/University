@@ -78,8 +78,8 @@ resource domainJoinExtension 'Microsoft.Compute/virtualMachines/extensions@2022-
     typeHandlerVersion: '1.3'
     settings: {
       Name: domainName
-      OUPath: 'OU=Servers,DC=knaak-hosting,DC=nl'
-      User: '${domainName}\\${exchangeUsername}'
+      OUPath: 'OU=Servers,DC=draak-hosting,DC=nl'
+      User: '${domainName}\\${adminUsername}'
       options: domainJoinOptions
       Restart: 'true'
     }
@@ -89,26 +89,26 @@ resource domainJoinExtension 'Microsoft.Compute/virtualMachines/extensions@2022-
   }
 }
 
-resource ExchangeRequirements 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
-  parent: virtualMachine
-  name: 'ExchangeRequirements'
-  location: location
-  properties: {
-    publisher: 'Microsoft.Compute'
-    type: 'CustomScriptExtension'
-    typeHandlerVersion: '1.10'
-    autoUpgradeMinorVersion: true
-    settings: {
-      fileUris: [
-        'https://raw.githubusercontent.com/aidro/University/refs/heads/main/Azure/PowerShell/exchange-requirements.ps1'
-        'https://raw.githubusercontent.com/aidro/University/refs/heads/main/Azure/PowerShell/exchange-installer.ps1'
-      ]
-        }
-    protectedSettings: {
-      commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File exchange-requirements.ps1'
-    }
-  } 
-  dependsOn: [
-    domainJoinExtension
-  ]
-}
+// resource ExchangeRequirements 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
+//   parent: virtualMachine
+//   name: 'ExchangeRequirements'
+//   location: location
+//   properties: {
+//     publisher: 'Microsoft.Compute'
+//     type: 'CustomScriptExtension'
+//     typeHandlerVersion: '1.10'
+//     autoUpgradeMinorVersion: true
+//     settings: {
+//       fileUris: [
+//         'https://raw.githubusercontent.com/aidro/University/refs/heads/main/Azure/PowerShell/exchange-requirements.ps1'
+//         'https://raw.githubusercontent.com/aidro/University/refs/heads/main/Azure/PowerShell/exchange-installer.ps1'
+//       ]
+//         }
+//     protectedSettings: {
+//       commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File exchange-requirements.ps1'
+//     }
+//   } 
+//   dependsOn: [
+//     domainJoinExtension
+//   ]
+// }
