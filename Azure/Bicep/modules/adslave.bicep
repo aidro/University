@@ -95,12 +95,12 @@ resource adInstallExtension 'Microsoft.Compute/virtualMachines/extensions@2022-0
     autoUpgradeMinorVersion: true
     settings: {
       fileUris: [
-        'https://raw.githubusercontent.com/aidro/University/refs/heads/Testing/Azure/PowerShell/JoinAD.ps1'
+        'https://raw.githubusercontent.com/aidro/University/refs/heads/Testing/Azure/PowerShell/InstallAD2.ps1'
       ]
         }
     protectedSettings: {
       safeModeAdminPassword: safeModeAdminPassword
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File JoinAD.ps1 -DomainName "${domainName}" -NetbiosName "${netbiosName}" -DomainMode "${domainMode}" -SafeModeAdministratorPassword "$(safeModeAdminPassword)"'
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File InstallAD2.ps1 -DomainName "${domainName}" -DomainAdminUsername "${adminUsername}" -DomainAdminPassword "${adminPassword}" -SafeModeAdministratorPassword "${safeModeAdminPassword}"'    
     }
   }
 }
