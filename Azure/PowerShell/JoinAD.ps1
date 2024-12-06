@@ -1,14 +1,21 @@
-    Import-Module ServerManager
+# Import required modules
+Import-Module ServerManager
 
-    Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
+# Install the Active Directory Domain Services role
+Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
 
-    Import-Module ActiveDirectory
+# Import Active Directory module
+Import-Module ActiveDirectory
 
-    $DomainName = "draak-hosting.nl"
-    $NetbiosName = "DRAAK-HOSTING"
-    $DomainMode = "Win2016"
-    $SafeModeAdminPasswordPlain = "Knaakhosting4.2!"
+# Define variables
+$DomainName = "draak-hosting.nl"
+$SafeModeAdminPasswordPlain = "Knaakhosting4.2!"
 
-    $SafeModeAdministratorPassword = ConvertTo-SecureString $SafeModeAdminPasswordPlain -AsPlainText -Force
+# Convert the safe mode administrator password to a secure string
+$SafeModeAdministratorPassword = ConvertTo-SecureString $SafeModeAdminPasswordPlain -AsPlainText -Force
 
-    Install-ADDSForest -DomainName $DomainName -DomainNetbiosName $NetbiosName -DomainMode $DomainMode -SafeModeAdministratorPassword $SafeModeAdministratorPassword -Force -NoRebootOnCompletion
+# Add the server as a domain controller to the existing domain
+Install-ADDSDomainController `
+    -DomainName $DomainName `
+    -SafeModeAdministratorPassword $SafeModeAdministratorPassword `
+    -Force
