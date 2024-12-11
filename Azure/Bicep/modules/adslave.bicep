@@ -100,7 +100,7 @@ resource adInstallExtension 'Microsoft.Compute/virtualMachines/extensions@2022-0
         }
     protectedSettings: {
       safeModeAdminPassword: safeModeAdminPassword
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File InstallAD2.ps1 -DomainName "${domainName}" -DomainAdminUsername "${adminUsername}" -DomainAdminPassword "${adminPassword}" -SafeModeAdministratorPassword "${safeModeAdminPassword}"'    
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File InstallAD2.ps1'    
     }
   }
 }

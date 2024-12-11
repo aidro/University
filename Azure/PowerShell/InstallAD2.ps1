@@ -1,41 +1,11 @@
-param (
-    [Parameter(Mandatory = $true)]
-    [string]$DomainName,
-    [Parameter(Mandatory = $true)]
-    [string]$DomainMode,
-    [Parameter(Mandatory = $true)]
-    [string]$SafeModeAdministratorPasswordPlain,
-    [Parameter(Mandatory = $true)]
-    [string]$DomainAdminUsername,
-    [Parameter(Mandatory = $true)]
-    [string]$DomainAdminPasswordPlain
-)
- 
- # Import required modules
- Import-Module ServerManager
+$DSRMPassword = ConvertTo-SecureString "Knaakhosting4.2!" -AsPlainText -Force
 
- # Install the Active Directory Domain Services role
- Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
- 
- # Import Active Directory module
- Import-Module ActiveDirectory
- Start-Transcript -Path C:\DCPromotionLog.txt
- # Define variables
+# Hardcoded domain join credentials
+$Username = "draak-hosting\knaakadmin"
+$Password = "Knaakhosting4.2!"
+$SecurePassword = ConvertTo-SecureString $Password -AsPlainText -Force
+$DomainJoinCredential = New-Object System.Management.Automation.PSCredential($Username, $SecurePassword)
 
- 
- # Convert passwords to secure strings
- $SafeModeAdministratorPassword = ConvertTo-SecureString $SafeModeAdminPasswordPlain -AsPlainText -Force
- $DomainAdminPassword = ConvertTo-SecureString $DomainAdminPasswordPlain -AsPlainText -Force
- 
- # Create a PSCredential object for the domain admin
- $DomainAdminCredential = New-Object System.Management.Automation.PSCredential($DomainAdminUsername, $DomainAdminPassword)
- 
- # Add the server as a domain controller to the existing domain
- Install-ADDSDomainController `
-     -DomainName $DomainName `
-     -SafeModeAdministratorPassword $SafeModeAdministratorPassword `
-     -Credential $DomainAdminCredential `
-     -ReplicationSourceDC "ad1-domain-test.kraak-hosting.nl" `
-     -NoRebootOnCompletion:$false `
-     -Force 
- 
+# Install AD DS and promote to Domain Controller
+Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
+Install-ADDSDomainController -InstallDns -Credential $DomainJoinCredential -DomainName "draak-hosting.nl" -SafeModeAdministratorPassword $DSRMPassword

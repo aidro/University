@@ -90,17 +90,17 @@ module adslave 'modules/adslave.bicep' = [for i in range(0, instanceCount): {
 //   ]
 // } 
 
-module exchange 'modules/exchange.bicep' = {
-  name: 'exchange-draak'
-  params: {
-    location: location
-    subnetID: vnet.outputs.subnetIds[0]
-    adminUsername: adminUsername
-    adminPassword: adminPassword
-    joinAccountPassword: joinAccountPassword
-  }
-  dependsOn: [
-    vnet
-    admaster
-  ]
-}
+// module exchange 'modules/exchange.bicep' = {
+//   name: 'exchange-draak'
+//   params: {
+//     location: location
+//     subnetID: vnet.outputs.subnetIds[0]
+//     adminUsername: adminUsername
+//     adminPassword: adminPassword
+//     joinAccountPassword: joinAccountPassword
+//   }
+//   dependsOn: [
+//     vnet
+//     admaster
+//   ]
+// }
