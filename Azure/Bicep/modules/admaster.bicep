@@ -81,23 +81,23 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
   }
 }
 
-resource SetupAD 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
-  parent: virtualMachine
-  name: 'SetupAD'
-  location: location
-  properties: {
-    publisher: 'Microsoft.Compute'
-    type: 'CustomScriptExtension'
-    typeHandlerVersion: '1.10'
-    autoUpgradeMinorVersion: true
-    settings: {
-      fileUris: [
-        'https://raw.githubusercontent.com/aidro/University/refs/heads/Testing/Azure/PowerShell/SetupAD.ps1'
-      ]
-        }
-    protectedSettings: {
-      safeModeAdminPassword: safeModeAdminPassword
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File SetupAD.ps1 -DomainName "${domainName}" -NetbiosName "${netbiosName}" -DomainMode "${domainMode}" -SafeModeAdministratorPassword "$(safeModeAdminPassword)"'
-    }
-  }
-}
+// resource SetupAD 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
+//   parent: virtualMachine
+//   name: 'SetupAD'
+//   location: location
+//   properties: {
+//     publisher: 'Microsoft.Compute'
+//     type: 'CustomScriptExtension'
+//     typeHandlerVersion: '1.10'
+//     autoUpgradeMinorVersion: true
+//     settings: {
+//       fileUris: [
+//         'https://raw.githubusercontent.com/aidro/University/refs/heads/Testing/Azure/PowerShell/SetupAD.ps1'
+//       ]
+//         }
+//     protectedSettings: {
+//       safeModeAdminPassword: safeModeAdminPassword
+//       commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File SetupAD.ps1 -DomainName "${domainName}" -NetbiosName "${netbiosName}" -DomainMode "${domainMode}" -SafeModeAdministratorPassword "$(safeModeAdminPassword)"'
+//     }
+//   }
+// }
