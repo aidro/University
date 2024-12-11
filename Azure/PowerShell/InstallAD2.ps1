@@ -8,4 +8,4 @@ $DomainJoinCredential = New-Object System.Management.Automation.PSCredential($Us
 
 # Install AD DS and promote to Domain Controller
 Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
-Install-ADDSDomainController -InstallDns -Credential $DomainJoinCredential -DomainName "draak-hosting.nl" -SafeModeAdministratorPassword $DSRMPassword
+Install-ADDSDomainController -InstallDns -Credential $DomainJoinCredential -DomainName "draak-hosting.nl" -SafeModeAdministratorPassword $DSRMPassword -Force
