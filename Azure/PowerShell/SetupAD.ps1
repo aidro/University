@@ -34,24 +34,14 @@ Install-ADDSForest `
 
 Write-Output "Domain '$DomainName' has been created successfully on 'ad0'."
 
-# Wait for AD services to start and ensure they are running
-Write-Output "Waiting for Active Directory services to start..."
-$Services = @("NTDS", "Netlogon", "DNS")
-foreach ($Service in $Services) {
-    while ((Get-Service -Name $Service).Status -ne 'Running') {
-        Write-Output "Waiting for service $Service to start..."
-        Start-Sleep -Seconds 5
-    }
+$scriptBlock = {
+	New-ADOrganizationalUnit -Name "Servers" -Path "DC=draak-hosting,DC=nl"
 }
-Write-Output "All required services are running."
-
-# Create the Organizational Unit
-try {
-    New-ADOrganizationalUnit -Name "Servers" -Path "DC=$($DomainName.Split('.')[0]),DC=$($DomainName.Split('.')[1])"
-    Write-Output "Organizational Unit 'Servers' has been created."
-} catch {
-    Write-Error "Failed to create the Organizational Unit. Error: $_"
-}
-
-# Reboot the server
+# Convert script block to a Base64 encoded string to pass it to the scheduled task
+$encodedCommand = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($scriptBlock.ToString()))
+# Creating the scheduled task
+$action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument "-EncodedCommand $encodedCommand"
+$trigger = New-ScheduledTaskTrigger -AtStartup
+Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "ContinueAfterReboot" -Description "My task to continue script execution after reboot"
+# Restart the computer (uncomment in actual use)
 Restart-Computer -Force
