@@ -68,26 +68,26 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
   }
 }
 
-resource domainJoinExtension 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
-  parent: virtualMachine
-  name: 'DomainJoin'
-  location: location
-  properties: {
-    publisher: 'Microsoft.Compute'
-    type: 'JsonADDomainExtension'
-    typeHandlerVersion: '1.3'
-    settings: {
-      Name: domainName
-      OUPath: 'OU=Servers,DC=draak-hosting,DC=nl'
-      User: '${domainName}\\${adminUsername}'
-      options: domainJoinOptions
-      Restart: 'true'
-    }
-    protectedSettings: {
-      Password: joinAccountPassword
-    }
-  }
-}
+// resource domainJoinExtension 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
+//   parent: virtualMachine
+//   name: 'DomainJoin'
+//   location: location
+//   properties: {
+//     publisher: 'Microsoft.Compute'
+//     type: 'JsonADDomainExtension'
+//     typeHandlerVersion: '1.3'
+//     settings: {
+//       Name: domainName
+//       OUPath: 'OU=Servers,DC=draak-hosting,DC=nl'
+//       User: '${domainName}\\${adminUsername}'
+//       options: domainJoinOptions
+//       Restart: 'true'
+//     }
+//     protectedSettings: {
+//       Password: joinAccountPassword
+//     }
+//   }
+// }
 
 // resource ExchangeRequirements 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
 //   parent: virtualMachine
@@ -100,15 +100,11 @@ resource domainJoinExtension 'Microsoft.Compute/virtualMachines/extensions@2022-
 //     autoUpgradeMinorVersion: true
 //     settings: {
 //       fileUris: [
-//         'https://raw.githubusercontent.com/aidro/University/refs/heads/main/Azure/PowerShell/exchange-requirements.ps1'
-//         'https://raw.githubusercontent.com/aidro/University/refs/heads/main/Azure/PowerShell/exchange-installer.ps1'
+//         'https://raw.githubusercontent.com/aidro/University/refs/heads/Testing/Azure/PowerShell/JoinAD.ps1'
 //       ]
 //         }
 //     protectedSettings: {
-//       commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File exchange-requirements.ps1'
+//       commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File JoinAD.ps1'
 //     }
 //   } 
-//   dependsOn: [
-//     domainJoinExtension
-//   ]
 // }

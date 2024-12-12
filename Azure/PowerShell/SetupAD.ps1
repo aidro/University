@@ -14,7 +14,7 @@ $InstallForestParams = @{
     DomainNetbiosName = "DRAAK-HOSTING"
     ForestMode = "Default"
     InstallDns = $true
-    NoRebootOnCompletion = $true
+    NoRebootOnCompletion = $false
     Force = $true
 }
 
