@@ -30,6 +30,8 @@ Write-Output "Preparing Active Directory..."
 # Optionally, prepare all domains if necessary
 # Write-Output "Preparing All Domains..."
 # & "$driveLetter\Setup.exe" /PrepareAllDomains /IAcceptExchangeServerLicenseTerms_DiagnosticDataON
+Write-Output "installing mailbox server"
+& "$driveLetter\Setup.exe" /IAcceptExchangeServerLicenseTerms_DiagnosticDataON /mode:Install /r:MB
 
 # Dismount the ISO
 Write-Output "Dismounting ISO..."
