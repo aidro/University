@@ -72,23 +72,23 @@ module adslave 'modules/adslave.bicep' = [for i in range(0, instanceCount): {
 ]
 
 
-// module vpnGateway 'modules/vng.bicep' = {
-//   name: 'vpnGateway'
-//   params: {
-//     location: location
-//     publicIpName: 'Zachtewijk-Public-1-${env}' 
-//     VpnGateway: 'VNG-Zachtewijk-${env}'
-//     subnetID: vnet.outputs.subnetIds[1]
-//     localNetworkGatewayName: localNetworkGatewayName
-//     onPremAddressPrefix: onPremAddressPrefix
-//     onPremIPAddress: onPremIPAddress
-//     vpnConnectionName: vpnConnectionName
-//     sharedKey: '2bf5c01cd020e89266627fb815e51129a8ee44439c1a0a4f86686921'
-//   }
-//   dependsOn: [
-//     vnet
-//   ]
-// } 
+module vpnGateway 'modules/vng.bicep' = {
+  name: 'vpnGateway'
+  params: {
+    location: location
+    publicIpName: 'Zachtewijk-Public-1-${env}' 
+    VpnGateway: 'VNG-Zachtewijk-${env}'
+    subnetID: vnet.outputs.subnetIds[1]
+    localNetworkGatewayName: localNetworkGatewayName
+    onPremAddressPrefix: onPremAddressPrefix
+    onPremIPAddress: onPremIPAddress
+    vpnConnectionName: vpnConnectionName
+    sharedKey: '2bf5c01cd020e89266627fb815e51129a8ee44439c1a0a4f86686921'
+  }
+  dependsOn: [
+    vnet
+  ]
+} 
 
 module exchange 'modules/exchange.bicep' = {
   name: 'exchange-draak'

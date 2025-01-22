@@ -10,7 +10,7 @@ param sharedKey string
 
 resource publicIp 'Microsoft.Network/publicIPAddresses@2020-06-01' = {
   name: publicIpName
-  location: location
+  location: 'West Europe'
   properties: {
     publicIPAllocationMethod: 'Static'
   }
