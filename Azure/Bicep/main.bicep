@@ -26,41 +26,41 @@ param safeModeAdminPassword string
   }
  }
 
-// module vm 'modules/vm.bicep' = [for i in range(0, instanceCount): {
-//   name: 'vm-${i}'
-//   params: {
-//     vmName: 'ad${i}-knaak'
-//     location: location
-//     subnetID: vnet.outputs.subnetIds[0]
-//     vmIpAddress: '10.1.10.1${i}'
-//     adminUsername: adminUsername
-//     adminPassword: adminPassword
-//     domainMode: 'Win2019'
-//     domainName: 'knaak-hosting.nl'
-//     netbiosName: 'KNAAK-HOSTING'
-//     safeModeAdminPassword: safeModeAdminPassword
-//   }
-// }
-// ]
+module vm 'modules/vm.bicep' = [for i in range(0, instanceCount): {
+  name: 'vm-${i}'
+  params: {
+    vmName: 'ad${i}-knaak'
+    location: location
+    subnetID: vnet.outputs.subnetIds[0]
+    vmIpAddress: '10.1.10.1${i}'
+    adminUsername: adminUsername
+    adminPassword: adminPassword
+    domainMode: 'Win2019'
+    domainName: 'knaak-hosting.nl'
+    netbiosName: 'KNAAK-HOSTING'
+    safeModeAdminPassword: safeModeAdminPassword
+  }
+}
+]
 
 
-// module vpnGateway 'modules/vng.bicep' = {
-//   name: 'vpnGateway'
-//   params: {
-//     location: location
-//     publicIpName: 'Harderwijk-Public-1' 
-//     VpnGateway: 'VNG-Harderwijk'
-//     subnetID: vnet.outputs.subnetIds[1]
-//     localNetworkGatewayName: localNetworkGatewayName
-//     onPremAddressPrefix: onPremAddressPrefix
-//     onPremIPAddress: onPremIPAddress
-//     vpnConnectionName: vpnConnectionName
-//     sharedKey: '2bf5c01cd020e89266627fb815e51129a8ee44439c1a0a4f86686921'
-//   }
-//   dependsOn: [
-//     vnet
-//   ]
-// } 
+module vpnGateway 'modules/vng.bicep' = {
+  name: 'vpnGateway'
+  params: {
+    location: location
+    publicIpName: 'Harderwijk-Public-1' 
+    VpnGateway: 'VNG-Harderwijk'
+    subnetID: vnet.outputs.subnetIds[1]
+    localNetworkGatewayName: localNetworkGatewayName
+    onPremAddressPrefix: onPremAddressPrefix
+    onPremIPAddress: onPremIPAddress
+    vpnConnectionName: vpnConnectionName
+    sharedKey: '2bf5c01cd020e89266627fb815e51129a8ee44439c1a0a4f86686921'
+  }
+  dependsOn: [
+    vnet
+  ]
+} 
 
 module exchange 'modules/exchange.bicep' = {
   name: 'exchange'
