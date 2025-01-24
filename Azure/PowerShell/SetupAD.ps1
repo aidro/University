@@ -17,5 +17,5 @@ $InstallForestParams = @{
     NoRebootOnCompletion = $false
     Force = $true
 }
-
+#Setup the AD DS Forest
 Install-ADDSForest @InstallForestParams

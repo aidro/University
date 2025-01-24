@@ -1,3 +1,4 @@
+//Params for creation of the virtual network gateway
 param location string
 param VpnGateway string
 param publicIpName string
@@ -8,6 +9,7 @@ param onPremAddressPrefix string
 param vpnConnectionName string
 param sharedKey string
 
+//Create a public IP address for the VPN Gateway
 resource publicIp 'Microsoft.Network/publicIPAddresses@2020-06-01' = {
   name: publicIpName
   location: 'West Europe'
@@ -19,6 +21,7 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2020-06-01' = {
 }
 }
 
+//Create the VPN Gateway
 resource vpnGateway 'Microsoft.Network/virtualNetworkGateways@2020-06-01' = {
   name: VpnGateway
   location: location
@@ -27,6 +30,7 @@ resource vpnGateway 'Microsoft.Network/virtualNetworkGateways@2020-06-01' = {
       {
         name: 'vnetGatewayConfig'
         properties: {
+          // link the public IP address to the VPN Gateway
           publicIPAddress: {
             id: publicIp.id
           }
@@ -47,6 +51,7 @@ resource vpnGateway 'Microsoft.Network/virtualNetworkGateways@2020-06-01' = {
   }
 }
 
+//Create a local network gateway for the on-premises network
 resource localNetworkGateway 'Microsoft.Network/localNetworkGateways@2020-06-01' = {
   name: localNetworkGatewayName
   location: location
@@ -60,6 +65,7 @@ resource localNetworkGateway 'Microsoft.Network/localNetworkGateways@2020-06-01'
   }
 }
 
+//Create a VPN connection between the VPN Gateway and the local network gateway
 resource vpnConnection 'Microsoft.Network/connections@2020-11-01' = {
   name: vpnConnectionName
   location: location

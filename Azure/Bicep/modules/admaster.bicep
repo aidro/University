@@ -1,3 +1,4 @@
+//Params for VM Creation
 param vmName string
 param location string
 param subnetID string
@@ -5,23 +6,26 @@ param vmIpAddress string
 @secure()
 param adminPassword string
 param adminUsername string
+//Params for AD Creation
 param domainName string 
 param netbiosName string
 param domainMode string
 @secure()
 param safeModeAdminPassword string
 
-resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2024-03-01' = {
-  name: '${vmName}-pubIp'
-  location: location
-  sku: {
-    name: 'Standard'
-  }
-  properties: {
-    publicIPAllocationMethod: 'Static'
-  }
-}
+//Create the public IP address(deprecated due to security reasons)
+// resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2024-03-01' = {
+//   name: '${vmName}-pubIp'
+//   location: location
+//   sku: {
+//     name: 'Standard'
+//   }
+//   properties: {
+//     publicIPAllocationMethod: 'Static'
+//   }
+// }
 
+//Create the network interface card
 resource networkInterface 'Microsoft.Network/networkInterfaces@2024-03-01' =  {
   name: '${vmName}-NIC'
   location: location
@@ -35,27 +39,30 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2024-03-01' =  {
           subnet: {
             id: subnetID
           }
-          publicIPAddress: {
-            id: publicIPAddress.id
-          }
+          // publicIPAddress: {
+          //   id: publicIPAddress.id
+          // }
         }
       }
     ]
   }
 }
-
+//Create the VM and add the NIC 
 resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
   name: vmName
   location: location
+  //VM SKU
   properties: {
     hardwareProfile: {
       vmSize: 'Standard_B2s'
     }
+    //VM login and name
     osProfile: {
       computerName: vmName
       adminUsername: adminUsername
       adminPassword: adminPassword
     }
+    //VM Image
     storageProfile: {
       imageReference: {
         publisher: 'MicrosoftWindowsServer'
@@ -63,6 +70,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
         sku: '2022-Datacenter'
         version: 'latest'
       }
+      //VM Disk properties
       osDisk: {
         createOption: 'FromImage'
         managedDisk: {
@@ -71,6 +79,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
         diskSizeGB: 128
       }
     }
+    //Attach the NIC
     networkProfile: {
       networkInterfaces: [
         {
@@ -80,7 +89,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
     }
   }
 }
-
+//Run script to setup the AD on the VM
 resource SetupAD 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
   parent: virtualMachine
   name: 'SetupAD'

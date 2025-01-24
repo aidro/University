@@ -21,24 +21,19 @@ Start-Process -FilePath "C:\Temp\vc_redist.x64.exe" -ArgumentList "/quiet", "/no
 Write-Output "Installeer vc_redist 2013"
 $vc2013Installer = "https://download.microsoft.com/download/9/3/8/938AD4D0-BF2A-4C1D-8E45-7C460CE632BF/vcredist_x64.exe"
 Invoke-WebRequest -Uri $vc2013
-#  Determine the directory where the script is running
-# $scriptDirectory = Split-Path -Parent $MyInvocation.MyCommand.Definition
+Determine the directory where the script is running
+$scriptDirectory = Split-Path -Parent $MyInvocation.MyCommand.Definition
 
-#  Ensure the C:\Scripts directory exists
-# New-Item -ItemType Directory -Path 'C:\Scripts' -Force
+#Ensure the C:\Scripts directory exists
+New-Item -ItemType Directory -Path 'C:\Scripts' -Force
 
-#  Copy 'exchange-installer.ps1' to 'C:\Scripts'
-# Copy-Item -Path "$scriptDirectory\exchange-installer.ps1" -Destination 'C:\Scripts\exchange-installer.ps1' -Force
+#Copy 'exchange-installer.ps1' to 'C:\Scripts'
+Copy-Item -Path "$scriptDirectory\exchange-installer.ps1" -Destination 'C:\Scripts\exchange-installer.ps1' -Force
 
-# # Schedule 'exchange-installer.ps1' to run at startup
-# $action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-ExecutionPolicy Unrestricted -File "C:\Scripts\exchange-installer.ps1"'
-# $trigger = New-ScheduledTaskTrigger -AtStartup
-# $principal = New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest
-# $task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal
+# Schedule 'exchange-installer.ps1' to run at startup
+$action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-ExecutionPolicy Unrestricted -File "C:\Scripts\exchange-installer.ps1"'
+$trigger = New-ScheduledTaskTrigger -AtStartup
+$principal = New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest
+$task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal
 
-# Register-ScheduledTask -TaskName 'RunExchangeInstaller' -InputObject $task
-
-# Write-Output "Server toevoegen aan domein $domainName..."
-# $securePassword = ConvertTo-SecureString $domainPassword -AsPlainText -Force
-# $credential = New-Object System.Management.Automation.PSCredential ($domainUser, $securePassword)
-# Add-Computer -DomainName $domainName -Credential $credential -Restart -Force
+Register-ScheduledTask -TaskName 'RunExchangeInstaller' -InputObject $task

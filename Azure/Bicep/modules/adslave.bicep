@@ -1,3 +1,4 @@
+//VM Parameters
 param vmName string
 param location string
 param subnetID string
@@ -5,26 +6,23 @@ param vmIpAddress string
 @secure()
 param adminPassword string
 param adminUsername string
-param domainName string 
-param netbiosName string
-param domainMode string
+//Password to join AD
 @secure()
 param safeModeAdminPassword string
-param domainJoinOptions int = 3
-@secure()
-param joinAccountPassword string
 
-resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2024-03-01' = {
-  name: '${vmName}-pubIp2'
-  location: location
-  sku: {
-    name: 'Standard'
-  }
-  properties: {
-    publicIPAllocationMethod: 'Static'
-  }
-}
+//Create the public IP address(deprecated due to security reasons)
+// resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2024-03-01' = {
+//   name: '${vmName}-pubIp2'
+//   location: location
+//   sku: {
+//     name: 'Standard'
+//   }
+//   properties: {
+//     publicIPAllocationMethod: 'Static'
+//   }
+// }
 
+//Create the network interface card
 resource networkInterface 'Microsoft.Network/networkInterfaces@2024-03-01' =  {
   name: '${vmName}-NIC'
   location: location
@@ -38,27 +36,31 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2024-03-01' =  {
           subnet: {
             id: subnetID
           }
-          publicIPAddress: {
-            id: publicIPAddress.id
-          }
+          // publicIPAddress: {
+          //   id: publicIPAddress.id
+          // }
         }
       }
     ]
   }
 }
 
+//Create the VM and add the NIC
 resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
   name: vmName
   location: location
+  //VM SKU
   properties: {
     hardwareProfile: {
       vmSize: 'Standard_B2s'
     }
+    //VM login and name
     osProfile: {
       computerName: vmName
       adminUsername: adminUsername
       adminPassword: adminPassword
     }
+    //VM image
     storageProfile: {
       imageReference: {
         publisher: 'MicrosoftWindowsServer'
@@ -66,6 +68,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
         sku: '2022-Datacenter'
         version: 'latest'
       }
+      //VM disk properties
       osDisk: {
         createOption: 'FromImage'
         managedDisk: {
@@ -74,6 +77,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
         diskSizeGB: 128
       }
     }
+    //Add the NIC to the VM
     networkProfile: {
       networkInterfaces: [
         {
@@ -83,7 +87,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
     }
   }
 }
-
+//Run script to install the AD and add the VM to the domain
 resource adInstallExtension 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
   parent: virtualMachine
   name: 'ADInstall'
@@ -104,24 +108,3 @@ resource adInstallExtension 'Microsoft.Compute/virtualMachines/extensions@2022-0
     }
   }
 }
-
-// resource domainJoinExtension 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
-//   parent: virtualMachine
-//   name: 'DomainJoin'
-//   location: location
-//   properties: {
-//     publisher: 'Microsoft.Compute'
-//     type: 'JsonADDomainExtension'
-//     typeHandlerVersion: '1.3'
-//     settings: {
-//       Name: domainName
-//       OUPath: 'OU=Servers,DC=draak-hosting,DC=nl'
-//       User: '${domainName}\\${adminUsername}'
-//       options: domainJoinOptions
-//       Restart: 'true'
-//     }
-//     protectedSettings: {
-//       Password: joinAccountPassword
-//     }
-//   }
-// }
