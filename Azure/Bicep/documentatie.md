@@ -8,3 +8,5 @@ Er is gekozen om de volgende resources middels Bicep uit te rollen:
 2. Virtual Network Gateway: de verbinding tussen het on-premises netwerk en het Azure netwerk. Een van de bouwstenen van de gehele Ijsselstreek-infrastructuur en dus heel belangrijk dat deze altijd operationeel is. Mocht deze niet meer werken kan deze d.m.v. Bicep snel weer opgezet worden.
 3. AD's: Het AD is het hart van de Services van Ijsselstreek-university. Mocht deze plat gaan of corupt raken is het erg belangrijk dat deze snel weer opgezet kan worden en z.s.m. weer geconfigureerd kan worden. Daarom is er ook gekozen om direct vanuit Bicep een PowerShell script uit te voeren dat Het AD inregeld. 
 4. Exchange: in de oorspronkelijke configuratie van het netwerk was er een losse Exchange server. Met de Ijsselstreek-fusie is deze Exchange server overgegaan naar het AD. Dit script wordt dus niet meer gebruikt, maar is wel ontwikkeld. 
+
+P.S. de nieuwste Bicep code is te vinden in de Testing Branch.
